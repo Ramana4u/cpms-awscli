@@ -8,7 +8,7 @@ pipeline{
   stages{
        stage('LB'){
         steps{
-            sh "aws elb create-load-balancer --load-balancer-name my-load-balancer --listeners "protocol HTTP, LoadBalancerPort=80,InstanceProtocol=HTTP,InstancePort=80,default-actions {Type=forward,TargetGroupArn=${jsonitem['TargetGroups'][0]['TargetGroupArn']}}" --subnets "+Subnet+"  --security-groups " + SecurityGroup + " --region us-east-2"
+            sh "aws elb create-load-balancer --load-balancer-name my-load-balancer --listeners "protocol HTTP, LoadBalancerPort=80,InstanceProtocol=HTTP,InstancePort=80" "default-actions Type=forward,TargetGroupArn=${jsonitem['TargetGroups'][0]['TargetGroupArn']}" --subnets "+Subnet+"  --security-groups " + SecurityGroup + " --region us-east-2"
             script{
               def cmd = "aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 --target-type ip --vpc-id vpc-048331c397b1a9bc3 --region us-east-2"
               def output = sh(script: cmd,returnStdout: true)
