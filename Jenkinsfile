@@ -16,7 +16,7 @@ pipeline{
               sleep(180)
             }
           script{
-              def cmd = "aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 --target-type ip --vpc-id vpc-048331c397b1a9bc3 --region us-east-2"
+              def cmd = "aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 --target-type instance --vpc-id vpc-048331c397b1a9bc3 --region us-east-2"
               def output = sh(script: cmd,returnStdout: true)
               jsonitem1 = readJSON text: output
               println(jsonitem)
