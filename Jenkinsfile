@@ -9,7 +9,7 @@ pipeline{
        stage('LB'){
         steps{
           script{
-              def cmd = "aws elbv2 create-load-balancer --name my-load-balancer --subnets "+Subnet+" --security-groups "+SecurityGroup+" --region us-east-2"
+              def cmd = "aws elbv2 create-load-balancer --name my-load-balancer --subnets "+Subnet+" subnet-0a22ca2d020ca46c1 --security-groups "+SecurityGroup+" --region us-east-2"
               def output = sh(script: cmd,returnStdout: true)
               jsonitem1 = readJSON text: output
               println(jsonitem)
