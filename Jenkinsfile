@@ -6,10 +6,15 @@ pipeline{
     string (name: 'Subnet', defaultValue: 'subnet-0ad08acb398ada09d', description: ' ')
             }
   stages{
-       stage('LB'){
+       stage('hosting application'){
         steps{
-            sh "aws rds create-db-instance --db-instance-identifier test-mysql-instance --db-name cpms --db-instance-class db.t2.micro --vpc-security-group-ids "+SecurityGroup+" --engine mysql --engine-version 5.7 --db-parameter-group-name default.mysql5.7 --publicly-accessible true --master-username admin --master-user-password ramana4u2021 --allocated-storage 10"
-            sleep(180)
+          script{
+              def cmd = "aws rds create-db-instance --db-instance-identifier test-mysql-instance --db-name cpms --db-instance-class db.t2.micro --vpc-security-group-ids "+SecurityGroup+" --engine mysql --engine-version 5.7 --db-parameter-group-name default.mysql5.7 --publicly-accessible true --master-username admin --master-user-password ramana4u2021 --allocated-storage 10"
+              def output = sh(script: cmd,returnStdout: true)
+              jsonitem = readJSON text: output
+              println(jsonitem)
+              sleep(180)
+           }
           script{
               def cmd = "aws elbv2 create-load-balancer --name my-load-balancer --subnets "+Subnet+" subnet-0a22ca2d020ca46c1 --security-groups "+SecurityGroup+" --region us-east-2 "
               def output = sh(script: cmd,returnStdout: true)
