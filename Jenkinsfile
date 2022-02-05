@@ -8,7 +8,7 @@ pipeline{
   stages{
        stage('hosting application'){
         steps{
-          sh "git clone https://github.com/Ramana4u/cpms-awscli.git"
+          sh "ls"
           script{
               def cmd = "aws elbv2 create-load-balancer --name my-load-balancer --subnets "+Subnet+" subnet-0a22ca2d020ca46c1 --security-groups "+SecurityGroup+" --region us-east-2 "
               def output = sh(script: cmd,returnStdout: true)
