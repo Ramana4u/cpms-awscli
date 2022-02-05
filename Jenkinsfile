@@ -14,6 +14,7 @@ pipeline{
               def output = sh(script: cmd,returnStdout: true)
               jsonitem = readJSON text: output
               println(jsonitem)
+              myJson = jsonitem['LoadBalancers'][0]['LoadBalancerArn']
               sleep(100)
             }
           sh "sudo sed -i.bak 's/endpoint/${jsonitem["LoadBalancers"][0]["LoadBalancerArn"]}/g' userdata.txt"
