@@ -14,7 +14,7 @@ pipeline{
               def output = sh(script: cmd,returnStdout: true)
               jsonitem = readJSON text: output
               println(jsonitem)
-              sleep(200)
+              sleep(360)
               myJson = jsonitem['DBInstances'][0]['Endpoint']['Address']
            }
            sh "sudo sed -i.bak 's/endpoint/${myJson}/g' userdata.txt"
