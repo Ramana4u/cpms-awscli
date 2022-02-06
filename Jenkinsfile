@@ -15,10 +15,12 @@ pipeline{
               jsonitem = readJSON text: output
               println(jsonitem)
               sleep(580)
-              myJson1 = jsonitem['DBInstances'][0]['DBInstanceIdentifier']
-              myJson = jsonitem.DBInstances[0].Endpoint.Address
+              myJson1 = jsonitem.DBInstances.DBInstanceIdentifier
               println(myJson1)
+              myJson = jsonitem.DBInstances.Endpoint.Address
               println(myJson)
+              myJson2 = jsonitem['DBInstances']['DBInstanceIdentifier']
+              println(myJson2)
            }
            sh "sudo sed -i.bak 's/endpoint/${myJson}/g' userdata.txt"
           script{
