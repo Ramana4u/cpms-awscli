@@ -14,7 +14,7 @@ pipeline{
               def output = sh(script: cmd,returnStdout: true)
               jsonitem = readJSON text: output
               println(jsonitem)
-              myJson2 = jsonitem['DBInstances'][0]['DBInstanceIdentifier']
+              myJson2 = jsonitem['DBInstances']['DBInstanceIdentifier']
               println(myJson2)
            }
            sh "sudo sed -i.bak 's/endpoint/${myJson2}/g' userdata.txt"
