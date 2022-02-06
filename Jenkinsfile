@@ -10,12 +10,15 @@ pipeline{
         steps{
           sh "ls"
           script{
-              def cmd = "aws rds create-db-instance --db-instance-identifier test-mysql-instance1 --db-name cpms --db-instance-class db.t2.micro --vpc-security-group-ids "+SecurityGroup+" --engine mysql --engine-version 5.7 --db-parameter-group-name default.mysql5.7 --publicly-accessible  --master-username admin --master-user-password ramana4u2021 --allocated-storage 10 --region us-east-2"
+              def cmd = "aws rds create-db-instance --db-instance-identifier test-mysql-instance3 --db-name cpms --db-instance-class db.t2.micro --vpc-security-group-ids "+SecurityGroup+" --engine mysql --engine-version 5.7 --db-parameter-group-name default.mysql5.7 --publicly-accessible  --master-username admin --master-user-password ramana4u2021 --allocated-storage 10 --region us-east-2"
               def output = sh(script: cmd,returnStdout: true)
               jsonitem = readJSON text: output
               println(jsonitem)
               sleep(580)
-              myJson = jsonitem['DBInstances'][0]['Endpoint']['Address']
+              myJson1 = jsonitem['DBInstances'][0]['DBInstanceIdentifier']
+              myJson = jsonitem['DBInstances'][0]['Endpoint'].['Address']
+              println(myJson1)
+              println(myJson)
            }
            sh "sudo sed -i.bak 's/endpoint/${myJson}/g' userdata.txt"
           script{
