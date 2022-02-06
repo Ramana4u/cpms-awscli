@@ -10,13 +10,14 @@ pipeline{
         steps{
           sh "ls"
           script{
-              def cmd = "aws rds create-db-instance --db-instance-identifier test-mysql-instance3 --db-name cpms --db-instance-class db.t2.micro --vpc-security-group-ids "+SecurityGroup+" --engine mysql --engine-version 5.7 --db-parameter-group-name default.mysql5.7 --publicly-accessible  --master-username admin --master-user-password ramana4u2021 --allocated-storage 10 --region us-east-2"
+              def cmd = "aws rds create-db-instance --db-instance-identifier test-mysql-instance --db-name cpms --db-instance-class db.t2.micro --vpc-security-group-ids "+SecurityGroup+" --engine mysql --engine-version 5.7 --db-parameter-group-name default.mysql5.7 --publicly-accessible  --master-username admin --master-user-password ramana4u2021 --allocated-storage 10 --region us-east-2"
               def output = sh(script: cmd,returnStdout: true)
               jsonitem = readJSON text: output
               println(jsonitem)
               sleep(60)
-              DBID = sh "aws rds describe-db-instances --query 'DBInstances[0].DBInstanceIdentifier' --output text --region us-east-2"
-              println(DBID)
+              DBID = sh "aws rds describe-db-instances --db-instance-identifier test-mysql-instance --query 'DBInstances[0].DBInstanceStatus' --output text --region us-east-2"
+              println(DBID)  
+              sh "sudo sed -i.bak 's/endpoint/${DBID}/g' userdata.txt"
               myJson2 = jsonitem.DBInstance.DBInstanceIdentifier
               println(myJson2)
               sleep(580)
