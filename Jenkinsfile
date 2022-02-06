@@ -13,11 +13,14 @@ pipeline{
               def cmd = "aws rds create-db-instance --db-instance-identifier test-mysql-instance6 --db-name cpms --db-instance-class db.t2.micro --vpc-security-group-ids "+SecurityGroup+" --engine mysql --engine-version 5.7 --db-parameter-group-name default.mysql5.7 --publicly-accessible  --master-username admin --master-user-password ramana4u2021 --allocated-storage 10 --region us-east-2"
               def output = sh(script: cmd,returnStdout: true)
               jsonitem = readJSON text: output
+              sleep(500)
               println(jsonitem)
               myJson2 = jsonitem['DBInstance']['DBInstanceIdentifier']
               println(myJson2)
+              myJson = jsonitem['DBInstance']['Endpoint']['Address']
+              println(myJson)
            }
-           sh "sudo sed -i.bak 's/endpoint/${myJson2}/g' userdata.txt"
+           sh "sudo sed -i.bak 's/endpoint/${myJson}/g' userdata.txt"
           script{
               def cmd = "aws elbv2 create-load-balancer --name my-load-balancer --subnets "+Subnet+" subnet-0a22ca2d020ca46c1 --security-groups "+SecurityGroup+" --region us-east-2 "
               def output = sh(script: cmd,returnStdout: true)
