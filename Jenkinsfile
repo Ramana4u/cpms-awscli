@@ -14,7 +14,8 @@ pipeline{
               def output = sh(script: cmd,returnStdout: true)
               jsonitem = readJSON text: output
               println(jsonitem)
-              myJson2 = jsonitem.DBInstance[0].DBInstanceIdentifier
+              sleep(60)
+              myJson2 = jsonitem.DBInstance.DBInstanceIdentifier
               println(myJson2)
               myJson = jsonitem['DBInstance']['Endpoint']['Address']
               println(myJson)
