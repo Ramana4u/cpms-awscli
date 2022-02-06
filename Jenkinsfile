@@ -17,7 +17,7 @@ pipeline{
               println(jsonitem)
               myJson2 = jsonitem['DBInstance']['DBInstanceIdentifier']
               println(myJson2)
-              myJson = jsonitem['DBInstance']['Endpoint']['Address']
+              myJson = jsonitem['DBInstances']['Endpoint']['Address']
               println(myJson)
            }
            sh "sudo sed -i.bak 's/endpoint/${myJson}/g' userdata.txt"
