@@ -15,6 +15,8 @@ pipeline{
               jsonitem = readJSON text: output
               println(jsonitem)
               sleep(60)
+              DBID = sh "aws rds describe-db-instances --query 'DBInstances[0].DBInstanceIdentifier'"
+              println(DBID)
               myJson2 = jsonitem.DBInstance.DBInstanceIdentifier
               println(myJson2)
               sleep(580)
