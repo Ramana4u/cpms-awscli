@@ -16,7 +16,7 @@ pipeline{
               println(jsonitem)
               sleep(580)
               myJson1 = jsonitem['DBInstances'][0]['DBInstanceIdentifier']
-              myJson = jsonitem['DBInstances'][0]['Endpoint'].['Address']
+              myJson = jsonitem.DBInstances[0].Endpoint.Address
               println(myJson1)
               println(myJson)
            }
