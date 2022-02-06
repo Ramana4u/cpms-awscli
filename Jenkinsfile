@@ -24,14 +24,14 @@ pipeline{
               def cmd = "aws elbv2 create-load-balancer --name my-load-balancer --subnets "+Subnet+" subnet-0a22ca2d020ca46c1 --security-groups "+SecurityGroup+" --region us-east-2 "
               def output = sh(script: cmd,returnStdout: true)
               jsonitem1 = readJSON text: output
-              println(jsonitem)
+              println(jsonitem1)
               sleep(100)
             }
           script{
               def cmd = "aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 --target-type instance --vpc-id vpc-048331c397b1a9bc3 --region us-east-2"
               def output = sh(script: cmd,returnStdout: true)
               jsonitem2 = readJSON text: output
-              println(jsonitem)
+              println(jsonitem2)
               sleep(180)
                }
            sh "aws elbv2 create-listener --load-balancer-arn ${jsonitem1['LoadBalancers'][0]['LoadBalancerArn']} --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=${jsonitem2['TargetGroups'][0]['TargetGroupArn']} --region us-east-2"
